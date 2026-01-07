@@ -1,331 +1,117 @@
+/* =========================================
+   1. VARIABLES & RESET
+   ========================================= */
 :root {
-  /* Color Palette */
-  --primary: #2563eb;       /* Blue-600 */
-  --primary-hover: #1d4ed8; /* Blue-700 */
-  --bg-app: #f8fafc;        /* Slate-50 */
-  --bg-panel: #ffffff;      /* White */
-  --text-main: #0f172a;     /* Slate-900 */
-  --text-muted: #64748b;    /* Slate-500 */
-  --border: #e2e8f0;        /* Slate-200 */
+  /* Color Palette - Vibrant Orange & Yellow */
+  --primary: #f97316;       /* Orange 500 */
+  --primary-hover: #ea580c; /* Orange 600 */
+  --primary-light: #ffedd5; /* Orange 100 */
   
-  /* Spacing & Shapes */
-  --radius: 12px;
-  --header-height: 60px;
+  --bg-app: #fffbeb;        /* Amber 50 */
+  --bg-panel: #ffffff;      /* White */
+  --bg-chat-bubble: #fef3c7;/* Amber 100 */
+  
+  --text-main: #1c1917;     /* Stone 900 */
+  --text-muted: #78716c;    /* Stone 500 */
+  --text-inverse: #ffffff;
+  
+  --border: #fed7aa;        /* Orange 200 */
+  --shadow-sm: 0 1px 2px 0 rgb(249 115 22 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(249 115 22 / 0.1);
+  
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  
   --sidebar-width: 280px;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-app);
   color: var(--text-main);
-  height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* --- UI COMPONENTS --- */
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 8px;
-  font-weight: 500;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  outline: none;
+/* Custom Scrollbar for cleaner look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
-.btn-primary {
-  background-color: var(--primary);
-  color: white;
-  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
-}
-.btn-primary:hover { background-color: var(--primary-hover); }
-
-.btn-outline {
-  background-color: transparent;
-  border: 1px solid var(--border);
-  color: var(--text-main);
-}
-.btn-outline:hover { background-color: #f1f5f9; }
-
-.btn-ghost {
-  background-color: transparent;
-  color: var(--text-muted);
-}
-.btn-ghost:hover { background-color: #f1f5f9; color: var(--text-main); }
-
-.w-full { width: 100%; }
-
-/* Inputs & Textareas */
-.input-field {
-  width: 100%;
-  height: 44px;
-  padding: 0 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.95rem;
-  background: var(--bg-panel);
-  transition: border-color 0.2s;
-}
-.input-field:focus {
-  border-color: var(--primary);
-  outline: 2px solid rgba(37, 99, 235, 0.1);
-}
-
-.textarea-field {
-  width: 100%;
-  min-height: 60px;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-family: inherit;
-  resize: none;
-}
-.textarea-field:focus { border-color: var(--primary); outline: none; }
-
-/* Cards */
-.card {
-  background: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-/* --- LAYOUTS --- */
-
-/* Auth Pages (Login/Register) */
-.auth-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--bg-app);
-}
-.auth-box {
-  width: 100%;
-  max-width: 400px;
-  padding: 32px;
-}
-.auth-header { text-align: center; margin-bottom: 24px; }
-.auth-header h2 { font-size: 1.5rem; margin-bottom: 8px; }
-.auth-header p { color: var(--text-muted); font-size: 0.9rem; }
-.form-group { margin-bottom: 16px; }
-.auth-footer { margin-top: 24px; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
-.link { color: var(--primary); text-decoration: none; font-weight: 500; }
-
-/* Dashboard Layout */
+/* =========================================
+   2. LAYOUT COMPONENT (Dashboard)
+   ========================================= */
 .dashboard-layout {
   display: flex;
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
+  background-color: var(--bg-app);
 }
 
-/* Sidebar */
+/* =========================================
+   3. SIDEBAR
+   ========================================= */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--bg-panel);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  height: 100%;
-}
-.sidebar-header { padding: 20px; font-weight: bold; font-size: 1.1rem; color: var(--primary); border-bottom: 1px solid var(--border); }
-.sidebar-content { flex: 1; overflow-y: auto; padding: 16px; }
-.sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
-.project-item { padding: 10px; cursor: pointer; border-radius: 6px; font-weight: 500; }
-.project-item:hover { background-color: #f8fafc; }
-
-/* Chat Window */
-.chat-window {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--bg-app);
-  position: relative;
-}
-.message-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* Message Bubbles */
-.message-wrapper { display: flex; width: 100%; }
-.message-wrapper.user { justify-content: flex-end; }
-.message-wrapper.bot { justify-content: flex-start; }
-
-.chat-bubble {
-  max-width: 70%;
-  padding: 12px 18px;
-  border-radius: 16px;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-.chat-bubble.user {
-  background-color: var(--primary);
-  color: white;
-  border-bottom-right-radius: 2px;
-}
-.chat-bubble.bot {
-  background-color: white;
-  border: 1px solid var(--border);
-  color: var(--text-main);
-  border-bottom-left-radius: 2px;
-}
-
-/* Chat Input Area */
-.chat-input-area {
-  padding: 20px;
-  background: var(--bg-panel);
-  border-top: 1px solid var(--border);
-}
-.input-container {
-  display: flex;
-  gap: 10px;
-  max-width: 800px;
-  margin: 0 auto;
-  background: white;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-
-/* --- Sidebar Specifics --- */
-
-/* Logout Button Special Styling */
-.btn-logout {
-  justify-content: flex-start; /* Aligns text to left */
-  color: var(--text-muted);
-}
-.btn-logout:hover {
-  background-color: #fef2f2; /* Light red background */
-  color: #dc2626; /* Red text */
-}
-
-/* Project Items */
-.project-wrapper {
-  margin-bottom: 4px;
-}
-
-.project-header {
-  padding: 8px 12px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
-  color: var(--text-main);
-  transition: background 0.2s;
-}
-.project-header:hover {
-  background-color: #f1f5f9;
-}
-
-/* Nested List (The sub-menu) */
-.project-sublist {
-  padding-left: 12px;
-  margin-top: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-left: 2px solid var(--border);
-  margin-left: 12px; /* Indent the whole list */
-}
-
-/* Chat Items (Inside Project) */
-.chat-item {
-  font-size: 0.85rem;
-  padding: 6px 10px;
-  cursor: pointer;
-  border-radius: 4px;
-  color: var(--text-muted);
-  transition: all 0.2s;
-}
-.chat-item:hover {
-  background-color: #f1f5f9;
-  color: var(--text-main);
-}
-
-/* New Chat Button */
-.new-chat-btn {
-  background: none;
-  border: none;
-  text-align: left;
-  font-size: 0.85rem;
-  color: var(--primary);
-  padding: 6px 10px;
-  cursor: pointer;
-  margin-top: 4px;
-}
-.new-chat-btn:hover {
-  text-decoration: underline;
-}
-
-/* --- SIDEBAR STYLING --- */
-
-.sidebar {
-  width: 280px;
-  background-color: #ffffff;
-  border-right: 1px solid #e2e8f0;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  flex-shrink: 0; /* Prevents sidebar from squishing */
+  flex-shrink: 0;
+  transition: width 0.3s ease;
 }
 
 .sidebar-header {
-  padding: 24px 20px;
-  font-size: 1.25rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
   font-weight: 700;
-  color: #2563eb; /* Blue */
-  border-bottom: 1px solid #f1f5f9;
-  letter-spacing: -0.5px;
+  font-size: 1.1rem;
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.025em;
 }
 
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  padding: 20px;
 }
 
 .sidebar-label {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #94a3b8;
+  color: var(--text-muted);
+  margin-bottom: 12px;
   font-weight: 600;
-  margin-bottom: 8px;
-  padding-left: 8px;
 }
 
 .sidebar-footer {
   padding: 16px;
-  border-top: 1px solid #f1f5f9;
-  background-color: #f8fafc;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-panel);
 }
 
-/* --- PROJECT ITEM STYLING --- */
-
+/* Project Items */
 .project-wrapper {
   margin-bottom: 4px;
 }
@@ -335,68 +121,340 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #334155; /* Slate 700 */
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  color: var(--text-main);
+  transition: background 0.2s;
 }
 
 .project-header:hover {
-  background-color: #f1f5f9;
-  color: #0f172a;
+  background-color: var(--bg-app);
 }
 
-/* The arrow icon rotation */
+/* Active State handled via class or inline style in JS, 
+   but we add a CSS hook just in case */
+.project-header.bg-blue-50 {
+  background-color: var(--primary-light) !important;
+  color: var(--primary) !important;
+}
+
 .project-arrow {
   font-size: 0.8rem;
-  color: #94a3b8;
-  transition: transform 0.2s;
-}
-.project-header.open .project-arrow {
-  transform: rotate(90deg);
+  color: var(--text-muted);
 }
 
-/* The list inside the project */
 .project-sublist {
+  padding-left: 12px;
   margin-top: 4px;
-  padding-left: 14px; /* Indent */
+  border-left: 2px solid var(--border);
   margin-left: 12px;
-  border-left: 1px solid #e2e8f0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
 }
 
-/* Individual Chat Items */
 .chat-item {
+  padding: 8px 10px;
   font-size: 0.9rem;
-  padding: 8px 12px;
-  color: #64748b;
-  border-radius: 6px;
+  color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
   text-decoration: none;
   display: block;
 }
 
 .chat-item:hover {
-  background-color: #f8fafc;
-  color: #2563eb;
+  color: var(--text-main);
+  background-color: var(--bg-app);
 }
 
-/* New Chat Button Link */
-.new-chat-btn {
-  font-size: 0.85rem;
-  padding: 8px 12px;
-  color: #2563eb;
-  background: none;
+/* =========================================
+   4. CHAT WINDOW
+   ========================================= */
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: #ffffff; /* Or keep it very light gray */
+}
+
+/* Empty State */
+.chat-window.items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 15%; /* Center chat a bit on large screens */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Mobile responsive padding */
+@media (max-width: 768px) {
+  .message-list {
+    padding: 1rem;
+  }
+}
+
+/* =========================================
+   5. MESSAGE BUBBLES
+   ========================================= */
+.message-wrapper {
+  display: flex;
+  width: 100%;
+  margin-bottom: 2px; /* Adds a tiny bit of space between messages */
+}
+
+.message-wrapper.user {
+  justify-content: flex-end;
+}
+
+.message-wrapper.bot {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 12px 18px;
+  border-radius: var(--radius-lg);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  box-shadow: var(--shadow-sm);
+  
+  /* 👇 ADD THESE LINES TO FIX TEXT WRAPPING 👇 */
+  white-space: pre-wrap;       /* Wraps text but preserves "Enter" key breaks */
+  word-break: break-word;      /* Ensures long words don't overflow */
+  overflow-wrap: break-word;   /* Standard property for text wrapping */
+}
+
+.chat-bubble.user {
+  background-color: var(--primary);
+  color: var(--text-inverse);
+  border-bottom-right-radius: 2px;
+}
+
+.chat-bubble.bot {
+  background-color: var(--bg-chat-bubble);
+  color: var(--text-main);
+  border-bottom-left-radius: 2px;
+  border: 1px solid var(--border);
+}
+
+/* =========================================
+   6. CHAT INPUT AREA
+   ========================================= */
+.chat-input-area {
+  padding: 20px 15%;
+  background: var(--bg-panel);
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .chat-input-area {
+    padding: 16px;
+  }
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 8px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-container:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.textarea-field {
+  width: 100%;
   border: none;
-  cursor: pointer;
-  text-align: left;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 8px;
+  min-height: 48px;
+  max-height: 150px;
+  background: transparent;
+}
+
+.input-container button {
+  align-self: flex-end;
+}
+
+/* =========================================
+   7. AUTH PAGES (Login/Register)
+   ========================================= */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e0e7ff 100%);
+  padding: 20px;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+  background: white;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  font-size: 1.75rem;
+  margin: 0 0 8px 0;
+  color: var(--text-main);
+}
+
+.auth-header p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
   font-weight: 500;
 }
-.new-chat-btn:hover {
+
+.link:hover {
   text-decoration: underline;
 }
+
+/* =========================================
+   8. UI PRIMITIVES (Button, Input, Card)
+   ========================================= */
+
+/* Button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  height: 40px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  outline: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-main);
+}
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--bg-app);
+  border-color: #cbd5e1;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-muted);
+}
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+}
+.btn-logout {
+  color: #ef4444; /* Red for logout */
+}
+.btn-logout:hover {
+  background-color: #fef2f2;
+}
+
+/* Inputs (General) */
+.input-field {
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* Card */
+.card {
+  background: var(--bg-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+}
+
+/* =========================================
+   9. UTILITY HELPERS (Support for existing Tailwind classes)
+   ========================================= */
+/* Since your code uses some tailwind classes like 'w-full', 'mb-2', etc.
+   We add minimal support for them here to ensure layout doesn't break. */
+
+.w-full { width: 100%; }
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.font-semibold { font-weight: 600; }
+.uppercase { text-transform: uppercase; }
+.truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.flex { display: flex; }
+.gap-2 { gap: 0.5rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.pl-2 { padding-left: 0.5rem; }
+.p-2 { padding: 0.5rem; }
+.h-7 { height: 1.75rem; }
+.h-8 { height: 2rem; }

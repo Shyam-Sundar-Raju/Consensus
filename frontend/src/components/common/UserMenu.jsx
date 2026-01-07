@@ -7,10 +7,9 @@ export default function UserMenu() {
   return (
     <Button
       variant="ghost"
-      className="w-full justify-start text-gray-600 hover:text-red-600 hover:bg-red-50"
+      className="w-full btn-logout"
       onClick={logout}
-    >
-      <span className="mr-2">🚪</span> Logout
+    > Logout
     </Button>
   );
 }

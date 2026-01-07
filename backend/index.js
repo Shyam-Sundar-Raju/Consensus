@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 const app = express();
+const messageRoutes = require("./routes/message.routes");
+
+
 
 require("dotenv").config({
     path: path.resolve(__dirname, "../.env"),
@@ -26,6 +29,7 @@ app.use("/auth", authRoutes);
 app.use("/projects", projectRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/query", queryRoutes);
+app.use("/messages", messageRoutes);
 
 // DB + Server start
 mongoose.connect(process.env.MONGO_URI)

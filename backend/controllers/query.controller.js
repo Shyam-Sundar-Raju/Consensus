@@ -1,5 +1,6 @@
 const axios = require("axios");
 const Chunk = require("../models/Chunk");
+const Message = require("../models/Message");
 const { PYTHON_EMBEDDING_URL } = require("../utils/pythonService");
 
 // TEMP: cosine similarity function
@@ -18,6 +19,14 @@ exports.askQuestion = async (req, res) => {
     if (!question) {
       return res.status(400).json({ message: "Question required" });
     }
+
+    // Save user message
+    await Message.create({
+        projectId,
+        role: "user",
+        content: question
+    });
+  
 
     // 1. Embed the question using Python
     const embedResponse = await axios.post(
@@ -67,6 +76,14 @@ exports.askQuestion = async (req, res) => {
 
     const result = await model.generateContent(prompt);
     const finalAnswer = result.response.text();
+
+    // Save assistant message
+    await Message.create({
+        projectId,
+        role: "assistant",
+        content: finalAnswer
+  });
+  
 
     res.json({
     answer: finalAnswer,

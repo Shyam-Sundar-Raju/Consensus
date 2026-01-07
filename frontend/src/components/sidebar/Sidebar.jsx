@@ -5,12 +5,12 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { api } from "../../lib/api";
 
-export default function Sidebar({ activeProject, onSelectProject }) {
+// 1. Receive onNewChat here 👇
+export default function Sidebar({ activeProject, onSelectProject, onNewChat }) {
   const [projects, setProjects] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [newProjectName, setNewProjectName] = useState("");
 
-  // 1. Fetch Projects on Load
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -24,17 +24,13 @@ export default function Sidebar({ activeProject, onSelectProject }) {
     }
   };
 
-  // 2. Create New Project
   const handleCreateProject = async () => {
     if (!newProjectName.trim()) return;
     try {
-      const res = await api.post("/projects", { 
-        name: newProjectName, 
-        level: "Beginner" // Default level, or add an input for this
-      });
-      setProjects([...projects, res.data]); // Add new project to list
+      await api.post("/projects", { name: newProjectName, level: "Beginner" });
       setNewProjectName("");
       setIsCreating(false);
+      fetchProjects();
     } catch (err) {
       alert("Failed to create project");
     }
@@ -43,26 +39,24 @@ export default function Sidebar({ activeProject, onSelectProject }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        ✨ LLM Workspace
+        <img src="/logo.jpeg" alt="Consensus Logo" className="w-8 h-8 rounded" />
+        <span>Consensus</span>
       </div>
 
       <div className="sidebar-content">
         <div className="sidebar-label">Your Projects</div>
         
-        {projects.length === 0 && (
-          <p className="text-gray-400 text-sm px-3">No projects yet.</p>
-        )}
-
         {projects.map((proj) => (
           <ProjectItem 
             key={proj._id} 
             project={proj} 
             isActive={activeProject?._id === proj._id}
             onClick={() => onSelectProject(proj)}
+            onRefresh={fetchProjects}
+            onNewChat={onNewChat} // 2. Pass it down here 👇
           />
         ))}
 
-        {/* Inline Create Form */}
         {isCreating && (
           <div className="p-2 border border-blue-100 rounded bg-blue-50 m-2">
             <Input 

@@ -3,19 +3,37 @@ import Sidebar from "../components/sidebar/Sidebar";
 import ChatWindow from "../components/chat/ChatWindow";
 
 export default function Dashboard() {
-  // This state tracks which project is currently clicked in the Sidebar
   const [activeProject, setActiveProject] = useState(null);
+  const [chatSessionId, setChatSessionId] = useState(0);
+
+  // 👇 CHANGED: Toggle Logic
+  const handleProjectSelect = (project) => {
+    // If clicking the SAME project that is already open, close it (set to null)
+    if (activeProject && activeProject._id === project._id) {
+      setActiveProject(null);
+    } else {
+      // Otherwise, open the new project
+      setActiveProject(project);
+    }
+  };
+
+  const handleNewChat = () => {
+    setChatSessionId((prev) => prev + 1);
+  };
 
   return (
     <div className="dashboard-layout">
-      {/* Pass the setter to Sidebar so it can update the selection */}
       <Sidebar 
         activeProject={activeProject} 
-        onSelectProject={setActiveProject} 
+        onSelectProject={handleProjectSelect} // 👈 Pass the new toggle handler
+        onNewChat={handleNewChat} 
       />
       
-      {/* Pass the data to ChatWindow so it knows where to send messages */}
-      <ChatWindow activeProject={activeProject} />
+      {/* key={chatSessionId} resets the component when New Chat is clicked */}
+      <ChatWindow 
+        key={chatSessionId} 
+        activeProject={activeProject} 
+      />
     </div>
   );
 }
