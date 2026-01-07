@@ -1,16 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
+const app = express();
 
 require("dotenv").config({
     path: path.resolve(__dirname, "../.env"),
   });
 
+
+app.use(cors());
 const authRoutes = require("./routes/auth.routes");
 const projectRoutes = require("./routes/project.routes");
 const uploadRoutes = require("./routes/upload.routes");
+const queryRoutes = require("./routes/query.routes");
 
-const app = express();
+
+
 
 // Middleware
 app.use(express.json());
@@ -19,6 +25,7 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/projects", projectRoutes);
 app.use("/upload", uploadRoutes);
+app.use("/query", queryRoutes);
 
 // DB + Server start
 mongoose.connect(process.env.MONGO_URI)

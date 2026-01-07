@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 import pdfplumber
 
@@ -17,6 +18,7 @@ def chunk_text(text, chunk_size=400):
     return chunks
 
 
+# ---------- PDF → chunks + embeddings ----------
 @app.post("/embed")
 async def embed(file: UploadFile = File(...)):
     # 1. Extract text from PDF
@@ -47,4 +49,17 @@ async def embed(file: UploadFile = File(...)):
     return {
         "chunkCount": len(response),
         "chunks": response
+    }
+
+
+# ---------- QUESTION → embedding ----------
+class Query(BaseModel):
+    text: str
+
+
+@app.post("/embed-text")
+async def embed_text(query: Query):
+    embedding = model.encode([query.text])[0]
+    return {
+        "embedding": embedding.tolist()
     }
