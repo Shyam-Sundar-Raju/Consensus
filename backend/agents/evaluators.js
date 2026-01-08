@@ -112,10 +112,11 @@ function parseVerdict(text) {
     ]);
   
     return {
-      watchdog: parseVerdict(watchdogResult.response.text()),
-      fact: parseVerdict(factResult.response.text()),
-      student: parseVerdict(studentResult.response.text())
-    };
+        watchdogVerdict: parseVerdict(watchdogResult.response.text()),
+        factVerdict: parseVerdict(factResult.response.text()),
+        studentVerdict: parseVerdict(studentResult.response.text())
+      };
+      
   }
   
   module.exports = {
