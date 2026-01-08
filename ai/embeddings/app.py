@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 import pdfplumber
+import os
 
 app = FastAPI()
 
@@ -63,3 +64,14 @@ async def embed_text(query: Query):
     return {
         "embedding": embedding.tolist()
     }
+
+
+# ---------- REQUIRED FOR RENDER / PROD ----------
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "app:app",
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 8000)),
+        reload=False
+    )
